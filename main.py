@@ -6,10 +6,10 @@ import json
 from tqdm import tqdm
 import random
 
+
 def parse_data(finish: int, start: int=28, data: list=[]):
     '''Парсинг данных по проведенным тиражам, формирование отчета в JSON'''
-    print('Обновление данных...')
-    print(finish, start)
+    print('Обновление данных...')    
     for i in tqdm(range(start + 1, int(finish) + 1)):
         url = f'https://www.stoloto.ru/4x20/archive/{i}'
         req = requests.get(url)
@@ -57,9 +57,6 @@ def go(base: list):
     luck = (2, 3, 4)
     for i in base:
         money += i['cost']
-        left = set(random.sample(range(1, 21), k=4))
-        right = set(random.sample(range(1, 21), k=4))
-
         l = set(map(int, i['left'].split()))
         r = set(map(int, i['right'].split()))
         if len(l & left) in luck or len(r & right) in luck:
@@ -67,14 +64,12 @@ def go(base: list):
             for j in i.keys():
                 if rez in j.upper() or rez == j:
                     prize += i[j]
-
     print(f'Потрачено: {money} рублей')
     print(f'Выиграно: {prize} рублей')
     print(f'Доход: {prize - money} рублей')
 
 
 print(f'  _     _   _     _   _  \n / \   / \ / \   / \ / \ \n( 4 ) ( и | з ) ( 2 | 0 )\n \_/   \_/ \_/   \_/ \_/ \n')
-
 url = 'https://www.stoloto.ru/4x20/archive'
 r = requests.get(url)
 soup = BeautifulSoup(r.text, 'lxml')
