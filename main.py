@@ -10,7 +10,7 @@ import random
 def parse_data(finish: int, start: int=28, data: list=[]):
     '''Парсинг данных по проведенным тиражам, формирование отчета в JSON'''
     print('Обновление данных...')    
-    for i in tqdm(range(start + 1, int(finish) + 1)):
+    for i in tqdm(range(start + 1, finish + 1)):
         url = f'https://www.stoloto.ru/4x20/archive/{i}'
         req = requests.get(url)
         soup = BeautifulSoup(req.text, 'lxml')
@@ -88,6 +88,6 @@ finally:
     last_json = base[-1]['Circulation']
     if last_json < int(last):
         print('Требуется обновление данных')
-        parse_data(last, last_json, base)
+        parse_data(int(last), last_json, base)
     else:
         go(base)
